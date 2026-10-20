@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "TripPlan",
+    "slug": "tripplan",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "tripplan",
+    "userInterfaceStyle": "light",
+    "ios": {},
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0E7C86",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.ofek.tripplan"
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0E7C86",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200
+        }
+      ],
+      "expo-secure-store",
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d2f5cfda-5608-4bb5-b2ea-8015a07da3e3"
+      }
+    },
+    "owner": "ofek.e"
+  }
+}
