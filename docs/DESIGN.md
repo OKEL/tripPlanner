@@ -188,7 +188,7 @@ tripPlanner/
 
 ### 2.4 Database
 
-Two tables. Current schema (the result of the three migrations in `supabase/migrations/`):
+Two tables. Current schema (the result of the four migrations in `supabase/migrations/`):
 
 ```sql
 create table public.trips (
@@ -217,9 +217,13 @@ create table public.place_info (
 
 alter table public.trips enable row level security;      -- no policies: only the service role
 alter table public.place_info enable row level security; -- (used by the Edge Functions) can access
+
+grant select, insert, update, delete on public.trips      to service_role;
+grant select, insert, update, delete on public.place_info to service_role;
 ```
 
 - **RLS is on with no policies.** The publishable key in the app cannot read or write any table. Every read and write goes through an Edge Function, which uses the service role key (injected by Supabase as `SUPABASE_SERVICE_ROLE_KEY`).
+- **Explicit grants to `service_role` only.** Since 2026-10-30 Supabase no longer grants Data API access to new `public` tables automatically, so a fresh project (or `supabase db reset`) needs these grants or every function fails with "permission denied". `anon` and `authenticated` get no grants: the app never reads tables directly.
 - No other database objects (no views, triggers, RPCs, storage buckets, or Auth users).
 - `updated_at` is set by the functions, not by a trigger.
 
@@ -378,3 +382,4 @@ Server error codes: `bad_json`, `method`, `empty`, `too_long`, `too_large`, `bad
 | 2026-10-12 | Tests: Node test runner for `mobile/src/lib`, Deno tests for the functions (incl. a compile-time app/server contract test), `scripts/eval-samples.mjs` against the deployed function. GitHub Actions runs type checks, lint and unit tests |
 | 2026-10-13 | UI languages English + Hebrew via typed dictionaries (no library); AI place summary and refine note follow the UI language; trip content is never translated; `place_info` cache key is `(place_key, lang)`; full RTL layout postponed |
 | 2026-10-13 | Standalone Android: APK built with EAS Build (profile `preview`), package `com.ofek.tripplan`, distributed by download link (no Play Store). `EXPO_PUBLIC_*` values are EAS environment variables, not in the repo |
+| 2026-10-23 | Migrations grant table access to `service_role` explicitly (Supabase stops auto-granting on new `public` tables from 2026-10-30); no grants to `anon`/`authenticated` |

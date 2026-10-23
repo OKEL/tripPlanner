@@ -36,11 +36,11 @@ The app reads only the two `EXPO_PUBLIC_*` values. Without them it shows "The ap
    npx supabase login
    npx supabase link --project-ref <project-ref>
    ```
-3. Create the tables. This applies `supabase/migrations/*.sql` in order (two tables, RLS on, no policies; schema in [DESIGN.md 2.4](DESIGN.md#24-database)):
+3. Create the tables. This applies `supabase/migrations/*.sql` in order (two tables, RLS on, no policies, access granted to `service_role` only; schema in [DESIGN.md 2.4](DESIGN.md#24-database)):
    ```bash
    npx supabase db push
    ```
-   Without the CLI: paste the three migration files, in name order, into the dashboard's SQL editor.
+   Without the CLI: paste the four migration files, in name order, into the dashboard's SQL editor.
 4. Set the Anthropic key as a function secret:
    ```bash
    npx supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
